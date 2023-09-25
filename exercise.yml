@@ -1,1 +1,101 @@
-#hello
+---
+
+    #Updating CentOS
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates CentOS
+    tags: always
+    dnf: 
+     update_only: yes
+     update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+    #Installing and configuring nginx    
+
+- hosts: webservers
+  become: true
+  tasks:
+
+  - name: install nginx for CentOS
+    tags: nginx,centos
+    dnf:
+     name: nginx
+     state: latest
+    when: ansible_distribution == "CentOS"
+    
+  - name: start and enable nginx
+    tags: nginx,centos
+    service:
+     name: nginx
+     state: started
+     enabled: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: copy index.html file for our nginx backend A
+    tags: nginx,centos
+    copy:
+     src: nginxservera.html
+     dest: /usr/share/nginx/html/index.html
+     owner: root
+     group: root
+     mode: 0644
+     # when: 
+
+  - name: copy index.html file for our nginx backend B
+    tags: nginx,centos
+    copy:
+     src: nginxserverb.html
+     dest: /usr/share/nginx/html/index.html
+     owner: root
+     group: root
+     mode: 0644
+     # when: 
+
+      #Allow HTTP connections on port 80 - firewalld
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: make sure firewalld service is running
+    service:
+     name: firewalld
+     state: started
+
+  - name: open port 80 in firewalld
+    firewalld:
+     service: http
+     permanent: yes
+     state: enabled
+     
+     #Installing haproxy 
+
+- hosts: proxyserver
+  become: true
+  tasks:
+
+  - name: install haproxy on the load balance VM
+    tags: haproxy,centos
+    dnf:
+     name: haproxy
+     state: latest
+    when: ansible_distribution == "CentOS"
+
+  - name: start and enable haproxy
+    tags: haproxy, centos
+    service:
+     name: haproxy
+     state: started
+     enabled: yes
+
+  - name: copy the haproxy config for load balacing
+    tags: haproxy,centos
+    copy:
+     src: haproxyconfig.cfg
+     dest: /etc/haproxy/haproxy.cfg
+     owner: root
+     group: root
+     mode: 0644
