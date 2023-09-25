@@ -7,8 +7,8 @@
   - name: install updates (CentOS)
     tags: always
     dnf:
-      update_only: yes
-      update_cache: yes
+     update_only: yes
+     update_cache: yes
     when: ansible_distribution == "CentOS"
 
 - hosts: all
@@ -24,14 +24,14 @@
   - name: add ssh key for chocobo
     tags: always
     authorized_key:
-      user: chocobo
-      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN5EAbxGMM5cM38igYPrxdW0vehEWprLmJt/WTDwqxzA ansible"
+     user: chocobo
+     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN5EAbxGMM5cM38igYPrxdW0vehEWprLmJt/WTDwqxzA ansible"
 
   - name: add sudoers file for chocobo
     tags: always
     copy:
-      src: sudoer_chocobo
-      dest: /etc/sudoers.d/chocobo
-      owner: root
-      group: root
-      mode: 0440
+     src: sudoer_chocobo
+     dest: /etc/sudoers.d/chocobo
+     owner: root
+     group: root
+     mode: 0440
