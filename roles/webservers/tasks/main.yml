@@ -11,23 +11,13 @@
    enabled: yes
   when: ansible_distribution == "CentOS"
 
-- name: copy index.html file for our nginx backend A
-  copy:
-   src: nginxservera.html
+- name: push the index.html file for our nginx backends
+  template:
+   src: index.html.j2
    dest: /usr/share/nginx/html/index.html
    owner: root
    group: root
    mode: 0644
-  when: ansible_hostname == "websrv1" 
-
-- name: copy index.html file for our nginx backend B
-  copy:
-   src: nginxserverb.html
-   dest: /usr/share/nginx/html/index.html
-   owner: root
-   group: root
-   mode: 0644
-  when:  ansible_hostname == "websrv2"
 
 - name: make sure firewalld service is running
   service:

@@ -10,9 +10,17 @@
    state: started
    enabled: yes
 
-- name: copy the haproxy config for load balacing
-  copy:
-   src: haproxyconfig.cfg
+- name: generate the HAproxy configuration
+  vars:
+   server_list:
+    - name: websrv1
+      ip: 192.168.1.214
+      port: 80
+    - name: websrv2
+      ip: 192.168.1.176
+      port: 80
+  template:
+   src: haproxy.cfg.j2
    dest: /etc/haproxy/haproxy.cfg
    owner: root
    group: root
