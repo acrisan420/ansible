@@ -1,0 +1,4 @@
+- name: add ssh key for chocobo
+  authorized_key:
+   user: chocobo
+   key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN5EAbxGMM5cM38igYPrxdW0vehEWprLmJt/WTDwqxzA ansible"

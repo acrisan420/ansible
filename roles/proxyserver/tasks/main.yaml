@@ -1,0 +1,19 @@
+- name: install haproxy on the load balance VM
+  dnf:
+   name: haproxy
+   state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: start and enable haproxy
+  service:
+   name: haproxy
+   state: started
+   enabled: yes
+
+- name: copy the haproxy config for load balacing
+  copy:
+   src: haproxyconfig.cfg
+   dest: /etc/haproxy/haproxy.cfg
+   owner: root
+   group: root
+   mode: 0644
