@@ -75,9 +75,9 @@ frontend haproxylb
 #---------------------------------------------------------------------
 
 backend nginxweb
-    balance roundrobin
-    {% for server in server_list %}
-    server {{ server.name }} {{ server.ip }}:{{ server.port }} check
+    balance roundrobin 
+    {% for host in groups['webservers'] %}
+    server {{ host }} {{ hostvars[host]['ansible_host'] }}:80 check
     {% endfor %}
 
 #test templates 

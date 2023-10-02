@@ -1,9 +1,10 @@
 [webservers]
-192.168.1.176
-192.168.1.214
+websrv1 ansible_host=192.168.1.176
+websrv2 ansible_host=192.168.1.214
 
 [proxyserver]
 192.168.1.209
+192.168.1.135
 
 [workstations]
 192.168.1.139

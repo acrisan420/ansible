@@ -11,17 +11,29 @@
    enabled: yes
 
 - name: generate the HAproxy configuration
-  vars:
-   server_list:
-    - name: websrv1
-      ip: 192.168.1.214
-      port: 80
-    - name: websrv2
-      ip: 192.168.1.176
-      port: 80
   template:
    src: haproxy.cfg.j2
    dest: /etc/haproxy/haproxy.cfg
    owner: root
    group: root
    mode: 0644
+
+- name: install keepalived on the proxy servers
+  dnf:
+   name: keepalived
+   state: latest
+  when: ansible_distribution == "CentOS"
+ 
+- name: generate keepalived conf
+  template:
+   src: keepalived.conf.j2
+   dest: /etc/keepalived/keepalived.conf
+   owner: root
+   group: root
+   mode: 0644  
+
+- name: enable and start keepalived service
+  service:
+   name: keepalived
+   state: started
+   enabled: yes
