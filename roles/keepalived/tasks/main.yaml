@@ -1,0 +1,18 @@
+- name: install keepalived on the proxy servers
+  dnf:
+   name: keepalived
+   state: latest
+ 
+- name: generate keepalived conf
+  template:
+   src: keepalived.conf.j2
+   dest: /etc/keepalived/keepalived.conf
+   owner: root
+   group: root
+   mode: 0644  
+
+- name: enable and start keepalived service
+  service:
+   name: keepalived
+   state: started
+   enabled: yes

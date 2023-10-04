@@ -34,3 +34,8 @@
   become: true
   roles:
    - proxyserver
+
+- hosts: proxyserver
+  become: true
+  roles:
+   - keepalived
