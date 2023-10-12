@@ -3,13 +3,13 @@
    name: keepalived
    state: latest
  
-- name: generate keepalived conf
+- name: generate keepalived.conf
   template:
    src: keepalived.conf.j2
    dest: /etc/keepalived/keepalived.conf
    owner: root
    group: root
-   mode: 0644  
+   mode: 0644
 
 - name: enable and start keepalived service
   service:

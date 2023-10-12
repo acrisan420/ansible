@@ -1,17 +1,13 @@
 # Configuation for the virtual interface
-vrrp_instance VI_1 {
+vrrp_instance {{ keepalived_instance_name }} {
     state {{ keepalived_role }}
     interface {{ keepalived_interface }}
-    {% if keepalived_role.lower() == "master" %}
     priority {{ keepalived_priority }}
-    {% else %}
-    priority {{ keepalived_backup_priority }}
-    {% endif %}
     advert_int {{ keepalived_adv }}
     virtual_router_id {{ keepalived_vr_id }} 
     authentication {
         auth_type PASS
-        auth_pass {{ keepalived_password}}
+        auth_pass {{ keepalived_password }}
     }
 
     # The virtual ip address shared between the two loadbalancers
@@ -19,3 +15,5 @@ vrrp_instance VI_1 {
         {{ keepalived_vip }}
     }
 }
+
+#test
