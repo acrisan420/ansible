@@ -3,6 +3,6 @@ keepalived_priority: 50
 keepalived_instance_name: VI_1
 keepalived_interface: enp1s0
 keepalived_vr_id: 52
-keepalived_password: pa$$word
+keepalived_password: pass
 keepalived_vip: 192.168.1.189
 keepalived_adv: 1
